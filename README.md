@@ -1,13 +1,22 @@
 # 🐳 Flask Docker API + Loki
 
-**Flask REST API** в Docker с эмуляцией крипто-бэкенда и отправкой логов в **Grafana Loki**.  
-Учебный проект: контейнеризация, observability, LogQL и дашборд Grafana.
+[![EN](https://img.shields.io/badge/EN-English-blue?style=flat-square)](#-about--о-проекте)
+[![RU](https://img.shields.io/badge/RU-Русский-darkblue?style=flat-square)](#-about--о-проекте)
 
-> Собрал → запустил → открыл `http://localhost:5000` → смотри логи в Grafana.
+**End-to-end learning lab:** Flask API → crypto log simulation → Loki push → Grafana (table + pie by level) → Docker Compose.
+
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.1-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Loki](https://img.shields.io/badge/Grafana-Loki-F46800?style=flat-square&logo=grafana&logoColor=white)](https://grafana.com/oss/loki/)
+[![LogQL](https://img.shields.io/badge/LogQL-sum_by(level)-purple?style=flat-square)](https://grafana.com/docs/loki/latest/query/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](#-лицензия)
+
+> Собрал → запустил → открыл `http://localhost:5000` → смотри логи в Grafana (`app="my_app"`).
 
 ---
 
-## 📌 О проекте
+## 📌 About / О проекте
 
 Проект показывает рабочий пайплайн:
 
