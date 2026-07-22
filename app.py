@@ -1,4 +1,4 @@
-"""Flask-приложение: API + эмуляция крипто-бэкенда с отправкой логов в Loki."""
+"""Flask app: REST API + crypto-backend simulation with Loki log shipping."""
 
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ def send_log_to_loki(
     level: str = "info",
     app_name: str = "my_app",
 ) -> None:
-    """POST сообщений в Loki: /loki/api/v1/push."""
+    """POST log messages to Loki: /loki/api/v1/push."""
     timestamp = str(int(time.time() * 1_000_000_000))
     payload = {
         "streams": [
@@ -77,7 +77,7 @@ def build_crypto_message() -> tuple[str, str]:
 
 
 def crypto_worker(interval: float = 0.5) -> None:
-    """Фоновый поток: постоянно шлёт случайные крипто-логи в Loki."""
+    """Background worker: continuously send random crypto logs to Loki."""
     while True:
         message, level = build_crypto_message()
         send_log_to_loki(message, level=level)

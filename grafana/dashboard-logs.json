@@ -36,7 +36,7 @@
   "panels": [
     {
       "datasource": { "type": "loki", "uid": "${DS_LOKI}" },
-      "description": "Таблица последних логов. LogQL: {app=\"$app\"} |= \"$search\"",
+      "description": "Recent logs table. LogQL: {app=\"$app\"} |= \"$search\"",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -93,7 +93,7 @@
           "direction": "backward"
         }
       ],
-      "title": "Последние логи {app=\"$app\"}",
+      "title": "Recent logs {app=\"$app\"}",
       "transformations": [
         {
           "id": "extractFields",
@@ -130,7 +130,7 @@
     },
     {
       "datasource": { "type": "loki", "uid": "${DS_LOKI}" },
-      "description": "Круговая диаграмма по level за выбранный time range. LogQL использует $__range.",
+      "description": "Pie chart by level for the selected time range. LogQL uses $__range.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -190,7 +190,7 @@
           "refId": "A"
         }
       ],
-      "title": "Распределение логов по level (Sum / $__range)",
+      "title": "Log distribution by level (Sum / $__range)",
       "type": "piechart"
     }
   ],
@@ -256,7 +256,7 @@
     "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]
   },
   "timezone": "browser",
-  "title": "Loki — логи my_app",
+  "title": "Loki — my_app logs",
   "uid": "loki-my-app-logs",
   "version": 2,
   "weekStart": ""

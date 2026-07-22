@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Эмулятор бэкенда крипто-биржи: случайные события + push логов в Loki."""
+"""Crypto-exchange backend simulator: random events + Loki log push."""
 
 from __future__ import annotations
 
@@ -51,7 +51,7 @@ def send_log_to_loki(
     url: str = LOKI_URL,
     app_name: str = "my_app",
 ) -> None:
-    """POST сообщений в Loki: /loki/api/v1/push."""
+    """POST log messages to Loki: /loki/api/v1/push."""
     timestamp = str(int(time.time() * 1_000_000_000))
     payload = {
         "streams": [
@@ -82,7 +82,7 @@ def ts_iso() -> str:
 
 def jitter_price(pair: str) -> float:
     base = BASE_PRICES[pair]
-    # ±0.8% шум вокруг базовой цены
+    # ±0.8% noise around the base price
     return round(base * (1.0 + random.uniform(-0.008, 0.008)), 8)
 
 
@@ -283,27 +283,27 @@ def format_line(job: str, payload: dict[str, Any], seq: int) -> str:
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
-        description="Эмулятор крипто-биржи: непрерывный поток случайных событий → Loki",
+        description="Crypto-exchange simulator: continuous random events → Loki",
     )
     p.add_argument("--url", default=DEFAULT_URL, help="Loki push URL")
-    p.add_argument("--job", default="crypto-backend", help="label job")
+    p.add_argument("--job", default="crypto-backend", help="job label")
     p.add_argument(
         "-i",
         "--interval",
         type=float,
         default=0.4,
-        help="базовая пауза между событиями (сек)",
+        help="base delay between events (seconds)",
     )
     p.add_argument(
         "--jitter",
         type=float,
         default=0.35,
-        help="случайный разброс паузы ±jitter (сек)",
+        help="random delay jitter ±seconds",
     )
     p.add_argument(
         "--no-loki",
         action="store_true",
-        help="только печатать в stdout, без отправки в Loki",
+        help="print to stdout only, do not send to Loki",
     )
     return p.parse_args()
 

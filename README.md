@@ -1,63 +1,61 @@
-# 🐳 Flask Docker API + Loki
+# Flask Docker API + Loki
 
-[![EN](https://img.shields.io/badge/EN-English-blue?style=flat-square)](#-about--о-проекте)
-[![RU](https://img.shields.io/badge/RU-Русский-darkblue?style=flat-square)](#-about--о-проекте)
-
-**End-to-end learning lab:** Flask API → crypto log simulation → Loki push → Grafana (table + pie by level) → Docker Compose.
-
+[![EN](https://img.shields.io/badge/lang-English-blue?style=flat-square)](#-about)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Loki](https://img.shields.io/badge/Grafana-Loki-F46800?style=flat-square&logo=grafana&logoColor=white)](https://grafana.com/oss/loki/)
 [![LogQL](https://img.shields.io/badge/LogQL-sum_by(level)-purple?style=flat-square)](https://grafana.com/docs/loki/latest/query/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](#-лицензия)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](#-license)
 
-> Собрал → запустил → открыл `http://localhost:5000` → смотри логи в Grafana (`app="my_app"`).
+**End-to-end learning lab:** Flask API → crypto log simulation → Loki push → Grafana (table + pie by level) → Docker Compose.
+
+> Build → run → open `http://localhost:5000` → view logs in Grafana (`app="my_app"`).
 
 ---
 
-## 📌 About / О проекте
+## About
 
-Проект показывает рабочий пайплайн:
+This project demonstrates a practical pipeline for a containerized Python backend with observability:
 
-- Flask API с JSON-эндпоинтами
-- фоновая эмуляция крипто-событий (сделки, ордера, risk-алерты)
-- отправка логов в Loki через `POST /loki/api/v1/push`
-- дашборд Grafana: таблица логов + круговая диаграмма по `level`
+- Flask API with JSON endpoints
+- Background crypto-event simulation (trades, orders, risk alerts)
+- Log shipping to Loki via `POST /loki/api/v1/push`
+- Grafana dashboard: recent logs table + pie chart by `level`
 - Docker / Docker Compose
 
-### Возможности
+### Features
 
-| Функция | Описание |
-|--------|----------|
-| 🏠 **`/`** | Приветствие и статус сервиса |
-| ℹ️ **`/info`** | Hostname, platform, PID, UTC-время |
-| 🧮 **`/calc/<a>/<b>`** | Сумма, произведение, разность и частное |
-| 📡 **`send_log_to_loki`** | POST логов в Loki (`app="my_app"`) |
-| 🪙 **Crypto worker** | Случайные события биржи в фоне |
-| 📊 **Grafana dashboard** | Таблица логов + pie по level |
-| 🐳 **Dockerfile / Compose** | Запуск на порту `5000` |
+| Feature | Description |
+|--------|-------------|
+| **`/`** | Service greeting and status |
+| **`/info`** | Hostname, platform, PID, UTC time |
+| **`/calc/<a>/<b>`** | Sum, product, difference, quotient |
+| **`send_log_to_loki`** | POST logs to Loki (`app="my_app"`) |
+| **Crypto worker** | Random exchange events in a background thread |
+| **Grafana dashboard** | Logs table + pie chart by level |
+| **Dockerfile / Compose** | Runs on port `5000` |
 
 ---
 
-## 🛠 Технологии
+## Tech stack
 
 - **Python 3.12**
 - **[Flask](https://flask.palletsprojects.com/)** — REST API
-- **requests** — push в Loki
-- **Grafana Loki** — хранение логов
-- **Docker / Docker Compose** — контейнеризация
+- **requests** — Loki push client
+- **Grafana Loki** — log storage
+- **Docker / Docker Compose** — packaging and run
 
 ---
 
-## 📁 Структура проекта
+## Project layout
 
 ```
 flask-docker-api/
 ├── app.py                         # Flask API + crypto worker → Loki
-├── main.py                        # Отдельный эмулятор крипто-биржи → Loki
+├── main.py                        # Standalone crypto-exchange simulator → Loki
 ├── grafana/
-│   └── dashboard-logs.json        # Дашборд: таблица + pie chart
+│   └── dashboard-logs.json        # Dashboard: table + pie chart
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt               # flask, requests
@@ -66,9 +64,9 @@ flask-docker-api/
 
 ---
 
-## 🚀 Быстрый старт
+## Quick start
 
-### Вариант 1. Docker Compose (рекомендуется)
+### Option 1. Docker Compose (recommended)
 
 ```bash
 git clone https://github.com/nifontovoleg/flask-docker-api.git
@@ -77,20 +75,20 @@ cd flask-docker-api
 docker compose up --build -d
 ```
 
-Приложение: **http://localhost:5000**
+App URL: **http://localhost:5000**
 
 ```bash
 docker compose down
 ```
 
-### Вариант 2. Docker вручную
+### Option 2. Docker manually
 
 ```bash
 docker build -t my-flask-app .
 docker run -d -p 5000:5000 my-flask-app
 ```
 
-### Вариант 3. Локально без Docker
+### Option 3. Local run (no Docker)
 
 ```bash
 python -m venv venv
@@ -105,9 +103,9 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Откройте: http://localhost:5000
+Open: http://localhost:5000
 
-Проверка API:
+API smoke checks:
 
 ```bash
 curl http://localhost:5000/
@@ -117,39 +115,40 @@ curl http://localhost:5000/calc/10/2
 
 ---
 
-## 📡 Логи в Loki
+## Logging to Loki
 
-При запуске `app.py`:
+When you start `app.py`:
 
-1. поднимается Flask на порту `5000`
-2. фоновый поток шлёт случайные крипто-логи
-3. каждый запрос к API тоже пишет лог
+1. Flask listens on port `5000`
+2. A background thread ships random crypto logs
+3. Each API request also writes a log line
 
-Функция **`send_log_to_loki`** делает `POST` на:
+**`send_log_to_loki`** sends a `POST` to:
 
 ```text
 http://<LOKI_HOST>:3100/loki/api/v1/push
 ```
 
-Метки потока:
+Stream labels:
 
-| Label | Значение по умолчанию |
-|-------|------------------------|
+| Label | Default |
+|-------|---------|
 | `app` | `my_app` |
 | `job` | `my_app` |
 | `level` | `info` / `warn` / `error` |
 | `service` | `my_app` |
 
-URL Loki задаётся в `app.py` / `main.py` константой `LOKI_URL`.
+Loki URL is set via the `LOKI_URL` constant in `app.py` / `main.py`.
 
-### Отдельный эмулятор
+### Standalone simulator
 
 ```bash
 python main.py
 ```
 
-Непрерывный поток событий биржи (тикеры, сделки, ордера, wallet, risk) с задержками.  
-Только консоль, без Loki:
+Continuous exchange events (tickers, trades, orders, wallet, risk) with small delays.
+
+Stdout only, no Loki:
 
 ```bash
 python main.py --no-loki
@@ -157,42 +156,42 @@ python main.py --no-loki
 
 ---
 
-## 📊 Grafana
+## Grafana
 
-Импорт дашборда:
+Import the dashboard:
 
 1. Grafana → **Dashboards** → **Import**
-2. файл `grafana/dashboard-logs.json`
-3. Folder: например `Logging`
+2. Select `grafana/dashboard-logs.json`
+3. Folder: e.g. `Logging`
 4. Datasource: **Loki** → **Import**
 
-### Панели
+### Panels
 
-1. **Таблица последних логов**
+1. **Recent logs table**
 
 ```logql
 {app="$app"} |= `$search`
 ```
 
-2. **Круговая диаграмма по level** (Sum + time range)
+2. **Pie chart by level** (Sum + time range)
 
 ```logql
 sum by (level) (count_over_time({app="$app"} |= `$search` [$__range]))
 ```
 
-Переменные дашборда:
+Dashboard variables:
 
-- **App** — `label_values(app)` (выбери `my_app`)
-- **String Match** — текстовый фильтр
-- **Time range** — `$__range` (Last 5/15 minutes и т.д.)
+- **App** — `label_values(app)` (select `my_app`)
+- **String Match** — text filter
+- **Time range** — `$__range` (Last 5/15 minutes, etc.)
 
-Если в дашборде **No data**:
+If the dashboard shows **No data**:
 
-1. запусти `python app.py` (в консоли должны быть `[OK]`)
-2. в Grafana выбери **App = my_app**
-3. поставь time range **Last 15 minutes** и обнови страницу
+1. Run `python app.py` (console should print `[OK]`)
+2. In Grafana select **App = my_app**
+3. Set time range to **Last 15 minutes** and refresh
 
-Проверка в Explore:
+Explore check:
 
 ```logql
 {app="my_app"}
@@ -200,7 +199,7 @@ sum by (level) (count_over_time({app="$app"} |= `$search` [$__range]))
 
 ---
 
-## 🔌 API
+## API
 
 ### `GET /`
 
@@ -225,7 +224,7 @@ sum by (level) (count_over_time({app="$app"} |= `$search` [$__range]))
 
 ### `GET /calc/<a>/<b>`
 
-Пример: `http://localhost:5000/calc/10/2`
+Example: `http://localhost:5000/calc/10/2`
 
 ```json
 {
@@ -238,67 +237,67 @@ sum by (level) (count_over_time({app="$app"} |= `$search` [$__range]))
 }
 ```
 
-> При делении на ноль `quotient` = `null`.
+> On division by zero, `quotient` is `null`.
 
 ---
 
-## ⚙️ Полезные команды
+## Useful commands
 
 ```bash
-# Пересборка после изменений
+# Rebuild after code changes
 docker compose up --build -d
 
-# Логи контейнера
+# Container logs
 docker compose logs -f
 
-# Список контейнеров
+# List containers
 docker ps
 ```
 
 ---
 
-## ⚠️ Решение проблем
+## Troubleshooting
 
-### Порт `5000` занят
+### Port `5000` is busy
 
 ```bash
 docker compose down
 ```
 
-### Изменения в `app.py` не видны в Docker
+### Changes in `app.py` are not visible in Docker
 
 ```bash
 docker compose up --build -d
 ```
 
-`docker restart` **не** подхватывает новый код.
+`docker restart` alone does **not** pick up new code.
 
-### Grafana пустая при App = my_app
+### Grafana is empty for App = my_app
 
-- приложение должно быть запущено и печатать `[OK]`
-- Loki URL должен быть доступен с машины, где крутится `app.py`
-- выбери App = `my_app`, не `crypto-backend` / `test-app` (это старые метки)
-
----
-
-## 🎯 Зачем этот проект
-
-| Цель | Результат |
-|------|-----------|
-| Docker / Compose | Сборка и запуск Python-сервиса в контейнере |
-| Flask API | Простые JSON-эндпоинты |
-| Observability | Push логов в Loki, метки `app` / `level` |
-| Grafana | Таблица логов и pie chart на LogQL |
+- The app must be running and printing `[OK]`
+- Loki URL must be reachable from the host running `app.py`
+- Select App = `my_app`, not older labels like `crypto-backend` / `test-app`
 
 ---
 
-## 📄 Лицензия
+## Why this project
 
-MIT — используйте свободно в личных и учебных проектах.
+| Goal | Outcome |
+|------|---------|
+| Docker / Compose | Build and run a Python service in a container |
+| Flask API | Simple JSON endpoints |
+| Observability | Push logs to Loki with `app` / `level` labels |
+| Grafana | Logs table and pie chart powered by LogQL |
+
+---
+
+## License
+
+MIT — free to use for personal and learning projects.
 
 ---
 
 <p align="center">
-  Сделано с ☕ для изучения Docker, бэкенда и Loki<br>
+  Built with ☕ for learning Docker, backend APIs, and Loki<br>
   <a href="https://github.com/nifontovoleg">@nifontovoleg</a> · <a href="https://www.nifontovv.ru/">nifontovv.ru</a>
 </p>
